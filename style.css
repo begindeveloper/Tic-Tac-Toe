@@ -18,8 +18,8 @@ body{
 }
 
 .square{
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background-color: azure;
     border: solid 2px black;
     box-sizing: border-box;
@@ -29,9 +29,36 @@ body{
 }
 
 .circle{
-    height: 90px;
-    width: 90px;
+    height: 180px;
+    width: 180px;
     border-radius: 50%;
-    border: 15px solid blueviolet;
+    border: 15px solid green;
     box-sizing: border-box;
+}
+
+.cross {
+    height: 180px;
+    width: 180px;
+    position: relative;
+    transform: rotate(45deg)
+}
+
+.cross:before, .cross:after{
+    content: "";
+    position: absolute;
+    background-color: red;
+}
+
+.cross:before{
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+.cross:after{
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
 }
