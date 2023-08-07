@@ -44,9 +44,9 @@ function checkScore() {
         if (circleWins){
             infoDisplay.textContent = "Circle Wins";
             allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
-            resetBoard();
             return
         }
+        resetBoard();
      });
 
 
@@ -57,9 +57,9 @@ function checkScore() {
         if (crossWins){
             infoDisplay.textContent = "Cross Wins!";
             allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
-            resetBoard();
             return
          }
+         resetBoard();
      });
 }
 
