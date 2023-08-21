@@ -1,75 +1,80 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const gameboard = document.querySelector('#gameboard')
-    const infoDisplay= document.querySelector('#info');
+    const gameboard = document.querySelector('#gameboard');
+    const infoDisplay = document.querySelector('#info');
     const startCells = ["", "", "", "", "", "", "", "", ""];
-
     let go = "circle";
     infoDisplay.textContent = "Circle goes first";
 
     function createBoard() {
         startCells.forEach((_cell, index) => {
             const cellElement = document.createElement('div');
-            cellElement.classList.add('square')
+            cellElement.classList.add('square');
             cellElement.id = index;
             cellElement.addEventListener('click', addGo);
-            gameboard.append(cellElement);
+            gameboard.appendChild(cellElement);
         });
     }
 
     createBoard();
 
-
     function addGo(e) {
-        const goDisplay = document.createElement('div');
-        goDisplay.classList.add(go);
-        e.target.append(goDisplay);
-        go = go === "circle" ? "cross" : "circle";
-        infoDisplay.textContent = "It is now " + go + "'s go.";
-        e.target.removeEventListener('click', addGo);
-        checkScore()
+        if (!e.target.firstChild) {
+            const goDisplay = document.createElement('div');
+            goDisplay.classList.add(go);
+            e.target.appendChild(goDisplay);
+            go = go === "circle" ? "cross" : "circle";
+            infoDisplay.textContent = "It is now " + go + "'s go.";
+            e.target.removeEventListener('click', addGo);
+            checkScore();
+        }
     }
-
 
     function checkScore() {
         const allSquares = document.querySelectorAll('.square');
         const winningCombos = [
-            ["0","1","2"],["3","4","5"],["6","7","8"]
-            ,["0","3","6"],["1","4","7"],["2","5","8"]
-            ,["0","4","8"],["2","4","6"]
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
         ];
 
-        winningCombos.forEach(array => {
-            const circleWins = array.every(cell => 
-                allSquares[cell].firstChild?.classList.contains('circle'))
-
-            if (circleWins){
+        for (const combo of winningCombos) {
+            const [a, b, c] = combo;
+            if (
+                allSquares[a].firstChild &&
+                allSquares[a].firstChild.classList.contains('circle') &&
+                allSquares[b].firstChild &&
+                allSquares[b].firstChild.classList.contains('circle') &&
+                allSquares[c].firstChild &&
+                allSquares[c].firstChild.classList.contains('circle')
+            ) {
                 infoDisplay.textContent = "Circle Wins";
-                allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
-                return
-            }
-            resetBoard();
-        });
-
-
-        winningCombos.forEach(array => {
-            const crossWins = array.every(cell => 
-                allSquares[cell].firstChild?.classList.contains('cross'))
-
-            if (crossWins){
+                return;
+            } else if (
+                allSquares[a].firstChild &&
+                allSquares[a].firstChild.classList.contains('cross') &&
+                allSquares[b].firstChild &&
+                allSquares[b].firstChild.classList.contains('cross') &&
+                allSquares[c].firstChild &&
+                allSquares[c].firstChild.classList.contains('cross')
+            ) {
                 infoDisplay.textContent = "Cross Wins!";
-                allSquares.forEach(square => square.replaceWith(square.cloneNode(true)))
-                return
+                return;
             }
-            resetBoard();
-        });
+        }
+
+        // Check for a draw
+        if ([...allSquares].every(square => square.firstChild)) {
+            infoDisplay.textContent = "It's a Draw!";
+        }
     }
 
-    function resetBoard() {
+    function resetGame() {
         const allSquares = document.querySelectorAll('.square');
         allSquares.forEach(square => {
-        if (square.firstChild) {
-            square.removeChild(square.firstChild);
-        }
-        square.addEventListener('click', addGo);
+            square.innerHTML = '';
+            square.addEventListener('click', addGo);
         });
-  });
+        infoDisplay.textContent = "Circle goes first";
+        go = "circle";
+    }
+});
