@@ -36,13 +36,6 @@ body{
     box-sizing: border-box;
 }
 
-.cross {
-    height: 180px;
-    width: 180px;
-    position: relative;
-    transform: rotate(45deg)
-}
-
 .circle::before {
     content: "";
     display: block;
@@ -52,18 +45,30 @@ body{
     background-color: green;
 }
 
-.cross::before, .cross::after {
+.cross {
+    height: 180px;
+    width: 180px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cross::before,
+.cross::after {
     content: "";
     position: absolute;
-    width: 15%;
+    width: 20%;
     height: 100%;
     background-color: red;
 }
 
 .cross::before {
     transform: rotate(45deg);
+    transform-origin: 50% 50%;
 }
 
 .cross::after {
     transform: rotate(-45deg);
+    transform-origin: 50% 50%;
 }
