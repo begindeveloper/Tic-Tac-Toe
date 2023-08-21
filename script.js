@@ -77,4 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         infoDisplay.textContent = "Circle goes first";
         go = "circle";
     }
+    
+    // Add this line to select the reset button and attach the click event handler
+    const resetButton = document.querySelector('button');
+    resetButton.addEventListener('click', resetGame);
 });
